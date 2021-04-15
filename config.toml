@@ -18,7 +18,7 @@ showEducation = true
 showExperience = false
 showOpenSource = false
 showProjects = false
-showPublications = false
+showPublications = true
 showQr = false
 showSkills = false
 
