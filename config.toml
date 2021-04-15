@@ -1,14 +1,43 @@
-baseurl = "http://dplesca.github.io/purehugo/"
-languageCode = "en-us"
 title = "Juho Timonen"
-theme = "purehugo"
-Paginate = 10
-disqusShortname = "xxxx"
+baseURL = "https://example.com/"
+theme = "hugo-resume"
+languageCode = "en-us"
+PygmentsCodeFences = true
+PygmentsCodeFencesGuessSyntax = true
+PygmentsStyle = "monokai"
+enableGitInfo = false
 
 [params]
-  twitterName = "TimonenJuho"
-  githubName = "jtimonen"
-  linkedinName = "jtimo"
-  description = "Doctoral Candidate \nComputer Science \nAalto University"
-  google_analytics = "UA-xxxxxx-xx"
+address = "Espoo, Finland"
+email = "timse@iki.fi"
+favicon = "/favicon.ico"
+firstName = "Juho"
+lastName = "Timonen"
+profileImage = "img/TechChat.png"
+showEducation = true
+showExperience = false
+showOpenSource = false
+showProjects = false
+showPublications = false
+showQr = false
+showSkills = false
+
+[params.google]
+
+[params.google.analytics]
+trackerID = ""
+
+[[params.handles]]
+link = "https://www.linkedin.com/in/jtimonen/"
+name = "LinkedIn"
+
+[[params.handles]]
+link = "https://github.com/jtimonen/"
+name = "GitHub"
+
+[outputs]
+home = ["HTML", "JSON"]
+
+[taxonomies]
+tag = "tags"
 
