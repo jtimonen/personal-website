@@ -1,2 +1,2 @@
 # personal-website
-My personal static website created using Hugo
+Static website created using Hugo, and based on the [resume](https://github.com/eddiewebb/hugo-resume) template.
