@@ -3,10 +3,9 @@ title: "lgpr: an interpretable non-parametric method for inferring covariate eff
 date: 2021-01-21
 pubtype: "Article"
 featured: true
-description: "Juho Timonen, Henrik Mannerstrom, Aki Vehtari, and Harri Lahdesmaki"
-tags: ["techtags","used","in","website"]
+description: "Timonen, J., Mannerström, H., Vehtari, A., and Lahdesmäki, H. Bioinformatics (2021)."
+tags: ["Gaussian Processes","Bayesian Methods","Stan","Longitudinal data", "Bioinformatics"]
 link: "https://doi.org/10.1093/bioinformatics/btab021"
-fact: "Bioinformatics"
 weight: 500
 sitemap:
   priority : 0.8
