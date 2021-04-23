@@ -1,13 +1,7 @@
 ---
-title: "Home"
-date: 2018-02-10T18:56:13-05:00
-sitemap:
-  priority : 1.0
-
-outputs:
-- html
-- rss
-- json
+title: "Juho Timonen"
+featured_image: '/images/gohugo-default-sample-hero-image.jpg'
+description: "Doctoral Candidate, Department of Computer Science, Aalto University."
 ---
-Doctoral Candidate, Department of Computer Science, Aalto University.
 
+Welcome to my blog with some of my work in progress.
