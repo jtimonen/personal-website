@@ -6,6 +6,6 @@ main:
     url: /posts/
     weight: 2
   - name: Publications
-    url: /publications/
+    url: /docs/
     weight: 3
 
