@@ -2,7 +2,7 @@
 title: Juho Timonen
 draft: false
 role: Doctoral Candidate
-avatar: img/aaa.png
+avatar: images/aaa.png
 bio: Programming and applied mathematics.
 organization:
   name: Aalto University, Department of Computer Science

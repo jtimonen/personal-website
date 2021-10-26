@@ -6,7 +6,7 @@ featured: true
 description: 
 tags: ["Gaussian Processes","Bayesian Methods", "Bioinformatics", "R", "Stan"]
 link: "https://doi.org/10.1093/bioinformatics/btab021"
-featuredImage: /img/lgpr_overview.png
+featuredImage: /images/lgpr_overview.png
 weight: 500
 sitemap:
   priority : 0.8
