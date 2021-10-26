@@ -1,5 +1,5 @@
 # My personal website
-Static website created using Hugo and the [ananke](https://themes.gohugo.io/gohugo-theme-ananke/) theme.
+Static website created using Hugo and the [Eureka](https://github.com/wangchucheng/hugo-eureka) theme.
 
 ## Local development
 
