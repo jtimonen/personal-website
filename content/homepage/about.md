@@ -14,6 +14,9 @@ social:
   - icon: github
     iconPack: fab
     url: https://github.com/jtimonen
+  - icon: orcid
+    iconPack: ai
+    url: https://orcid.org/0000-0003-2341-6765
 
 weight: 1
 widget:
