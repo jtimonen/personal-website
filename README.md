@@ -8,4 +8,4 @@ Static website created using Hugo and the [Eureka](https://github.com/wangchuche
 
 ## Deployment
 
-Currently deployed to [jtimonen.gihub.io](jtimonen.github.io).
+Currently deployed to [jtimonen.github.io](jtimonen.github.io).
