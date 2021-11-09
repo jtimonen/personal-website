@@ -4,9 +4,9 @@ description:
 date: 2021-01-21
 featured: true
 description: 
-tags: ["Gaussian Processes","Bayesian Methods", "Bioinformatics", "R", "Stan"]
+tags: ["Gaussian Processes", "Bayesian Methods", "Bioinformatics", "R", "Stan"]
 link: "https://doi.org/10.1093/bioinformatics/btab021"
-featuredImage: /images/lgpr_overview.png
+featuredImage: /images/pub_02.png
 weight: 500
 sitemap:
   priority : 0.8

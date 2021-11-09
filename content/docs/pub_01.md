@@ -6,7 +6,7 @@ featured: true
 description: 
 tags: ["ODEs","Bayesian Methods", "Bioinformatics", "Molecular Networks"]
 link: "https://ieeexplore.ieee.org/document/8334413"
-featuredImage: /images/odemcmc.png
+featuredImage: /images/pub_01.png
 weight: 500
 sitemap:
   priority : 0.8
