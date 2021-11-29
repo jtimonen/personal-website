@@ -4,4 +4,8 @@ themes/
 resources/
 *.mod
 *.sum
+*.exe
+*.hpp
+*.Rhistory
+.hugo_build.lock
 
