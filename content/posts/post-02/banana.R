@@ -12,7 +12,6 @@ plt <- ggplot(df, aes(x = theta_1, y = theta_2)) +
   ggtitle("Draws")
 plt
 
-
 out1 <- paste(fit$output()[[1]], collapse = "\n")
 out2 <- paste(fit$output()[[2]], collapse = "\n")
 out3 <- paste(fit$output()[[3]], collapse = "\n")
