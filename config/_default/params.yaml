@@ -28,7 +28,7 @@ highlight:
       - cpp
       - r
     # See https://github.com/highlightjs/cdn-release/tree/master/build/styles for available styles.
-    style: github
+    style: solarized-light
 
 math:
   handler: katex

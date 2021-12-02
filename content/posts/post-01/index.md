@@ -1,14 +1,15 @@
 ---
-title: Understanding the Stan codebase - Part 1
+title: "Understanding the Stan codebase - Part 1: Finding an entry point"
 description: Overview of the different libraries related to Stan and their organization, and finding and entry point to the internal C++ code.
 toc: true
 authors: []
 tags: []
 categories: []
 series: [Stan C++]
-date: 2021-11-29T09:00:00+02:00
-lastmod: 2021-12-01T09:30:00+02:00
+date: 2021-12-02T12:00:00+02:00
+lastmod: 2021-12-03T12:00:00+02:00
 featuredVideo:
+featuredImage: "/images/post-01/stan-structure.png"
 keywords: Stan, C++
 draft: false
 ---
