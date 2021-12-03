@@ -6,9 +6,9 @@ authors: []
 tags: []
 categories: []
 series: [Stan C++]
-date: 2021-11-29T03:01:05+02:00
-lastmod: 2021-11-29T03:01:05+02:00
-featuredImage: "/images/post-02/sampler_classes.png"
+date: 2021-12-02T12:00:00+02:00
+lastmod: 2021-12-03T12:00:00+02:00
+featuredImage:
 featuredVideo:
 keywords: Stan, C++
 draft: true
@@ -16,52 +16,21 @@ draft: true
 
 ## Introduction
 
-### Running example
-
-We have written a Stan model in **banana.stan**. It specifies a two-dimensional version of the distribution is discussed in [Haario et. al (1999)](https://link.springer.com/article/10.1007/s001800050022).
-
+### Recap of Part 1
+We pick up from where we left off in [Part 1](https://jtimonen.github.io/posts/post-01/). We started with a CmdStan command-line call like
 ```
-// banana.stan
-parameters {
-  vector[2] theta;
-}
-
-model {
-  real a = 10.0;
-  real b = 0.03;
-  target += normal_lpdf(theta[1] | 0.0, a);
-  target += normal_lpdf(theta[2] + b * square(theta[1]) - a * b | 0.0, 1.0);
-}
+mymodel.exe id=1 method=sample algorithm=hmc engine=nuts adapt engaged=1
 ```
+and found out that CmdStan calls the Stan services in `cmdstan::command()`. There, the
+command-line arguments are parsed and consequently based on them,
 
-Here is our R code for sampling from the distribution.
+1. the called service is `stan::services::sample::hmc_nuts_diag_adapt()`
+2. which then calls `stan::services::util::run_adaptive_sampler()`
+3. which calls `stan::services::util::generate_transitions()`.
 
-{{< highlight R >}}
-library(cmdstanr)
-library(ggplot2)
-model <- cmdstan_model(stan_file = "banana.stan")
-model$save_hpp_file()
-fit <- model$sample(adapt_delta = 0.95, init = 0)
-theta_1 <- as.vector(fit$draws("theta[1]"))
-theta_2 <- as.vector(fit$draws("theta[2]"))
-df <- data.frame(theta_1, theta_2)
-plt <- ggplot(df, aes(x = theta_1, y = theta_2)) +
-  geom_point(alpha = 0.5, col = "firebrick") +
-  ggtitle("Draws")
-plt
-{{< / highlight >}}
-
-We plot the draws to give an idea what the distribution looks like.
-
-<img src="/images/post-02/draws.jpeg" alt="Draws" width=560>
-
-## Recap
-
-
-## Generate transitions
-
-Last time we got to the part where we are calling `stan::services::util::generate_transitions()`, which is defined in [generate_transitions.hpp](https://github.com/stan-dev/stan/blob/develop/src/stan/services/util/generate_transitions.hpp). Among other things it takes as input the sampler, model, and initial point. The function body
-is basically just a loop that calls `sampler.transition()` repeatedly for `num_iterations` times.
+### Starting point for Part 2
+We find `generate_transitions()` in [generate_transitions.hpp](https://github.com/stan-dev/stan/blob/develop/src/stan/services/util/generate_transitions.hpp).
+Here and throughout this post, comments starting with `...` indicate parts of code that have been left out.
 
 {{< highlight cpp >}}
 void generate_transitions(stan::mcmc::base_mcmc& sampler, int num_iterations,
@@ -74,15 +43,24 @@ void generate_transitions(stan::mcmc::base_mcmc& sampler, int num_iterations,
 }
 {{< / highlight >}}
 
- We see that `sampler` has to be an instance of the class `base_mcmc`. But it can also be an instance of some class that derives from `base_mcmc` (to be exact, it has to be). The type of `sampler` determines how the transitions happen. In our case, i
- 
- Whether we are doing warmup or sampling is also encoded as a property of `sampler`.
+Among other things it takes as input the sampler, model, and initial point, all of which have been created by now. The function is basically just a loop that calls `sampler.transition()` repeatedly for `num_iterations` times.
+The interesting part to us is how a transition is performed, and this is defined by `sampler.transition()`. As we will see, different sampler classes define the transition differently. Also whether we are doing adaptation or not is an *attribute* of `sampler`. 
+
+We will therefore now jump from the `stan::services` namespace to [`stan::mcmc`](https://github.com/stan-dev/stan/tree/develop/src/stan/mcmc), where the different samplers and their transitions are defined.
 
 ## Sampler classes
 
+We see in `generate_transitions()` that `sampler` has to have type `base_mcmc`. However, in `hmc_static_diag_e_adapt()`, where `sampler`
+is instantiated, it has (templated) type `adapt_diag_e_static_hmc`. So what is going on? 
+
+<center><img src="/images/post-02/sampler_class_inheritance.png" alt="Sampler Classes" width=790></center>
+
+It appears that `adapt_diag_e_static_hmc` is a class that *derives* from `base_mcmc` through multiple levels of inheritance
+as can be seen from the above diagram.
+
 ### base_mcmc
 
-This is just a base for all MCMC samplers, as it doesn't contain any function bodies, just prototypes.
+ This is just an *interface* for all MCMC samplers, as it doesn't contain any function bodies.
 
 {{< highlight cpp >}}
 class base_mcmc {
@@ -102,7 +80,8 @@ class base_mcmc {
 };
 {{< / highlight >}}
 
-The class functions are all *virtual* (except the constructor, which never should be), hinting that deriving classes will probably be overriding them. We see that `transition()` is *pure virtual* (declared with the `= 0`), meaning that any deriving class *must* override it. 
+The class member functions are all *virtual* (except the constructor, which never should be), meaning that deriving classes can override them. We see that `transition()` is *pure virtual* (declared with `= 0`), meaning that any deriving class *must* override it. 
+
 
 
 ### base_hmc
@@ -230,6 +209,45 @@ class base_hmc : public base_mcmc {
 };
 {{< / highlight >}}
 
+
+## Example
+
+We have written a Stan model in **banana.stan**. It specifies a two-dimensional version of the distribution is discussed in [Haario et. al (1999)](https://link.springer.com/article/10.1007/s001800050022).
+
+```
+// banana.stan
+parameters {
+  vector[2] theta;
+}
+
+model {
+  real a = 10.0;
+  real b = 0.03;
+  target += normal_lpdf(theta[1] | 0.0, a);
+  target += normal_lpdf(theta[2] + b * square(theta[1]) - a * b | 0.0, 1.0);
+}
+```
+
+Here is our R code for sampling from the distribution.
+
+{{< highlight R >}}
+library(cmdstanr)
+library(ggplot2)
+model <- cmdstan_model(stan_file = "banana.stan")
+model$save_hpp_file()
+fit <- model$sample(adapt_delta = 0.95, init = 0)
+theta_1 <- as.vector(fit$draws("theta[1]"))
+theta_2 <- as.vector(fit$draws("theta[2]"))
+df <- data.frame(theta_1, theta_2)
+plt <- ggplot(df, aes(x = theta_1, y = theta_2)) +
+  geom_point(alpha = 0.5, col = "firebrick") +
+  ggtitle("Draws")
+plt
+{{< / highlight >}}
+
+We plot the draws to give an idea what the distribution looks like.
+
+<center><img src="/images/post-02/draws.jpeg" alt="Draws" width=560></center>
 
 ## References
 

@@ -1,0 +1,23 @@
+FIRST GRAPH
+%%{init: {'theme': 'base', 'themeVariables': { 'primaryColor': '#ffc9c9', 'secondaryColor': '#dbd9d9'}}}%%
+graph TD
+    A("main()") -->|calls| B("cmdstan::command()")
+    -->|calls| C("stan::services::sample::hmc_nuts_diag_e_adapt()")
+    -->|calls| D("stan::services::util::run_adaptive_sampler()")
+    -->|calls| E("stan::services::util::generate_transitions()")
+
+SECOND GRAPH
+%%{init: {'theme': 'base', 'themeVariables': { 'primaryColor': '#ffc9c9', 'secondaryColor': '#dbd9d9'}}}%%
+graph TD
+    F("base_nuts_classic") -->|derives from| D
+    K("unit_e_nuts") -->|derives from| C
+    A("adapt_diag_e_nuts") -->|derives from| B("diag_e_nuts")
+     -->|derives from| C
+    C("base_nuts")
+     -->|derives from| D("base_hmc")
+     -->|derives from| E("base_mcmc")
+    G("base_static_hmc") -->|derives from| D
+    H("base_static_uniform") -->|derives from| D
+    I("base_xhmc") -->|derives from| D
+    J("dense_e_nuts") -->|derives from| C
+    L("softabs_nuts") -->|derives from| C

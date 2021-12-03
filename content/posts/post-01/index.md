@@ -6,10 +6,10 @@ authors: []
 tags: []
 categories: []
 series: [Stan C++]
-date: 2021-12-02T12:00:00+02:00
-lastmod: 2021-12-03T12:00:00+02:00
+date: 2021-11-29T03:01:05+02:00
+lastmod: 2021-11-29T03:01:05+02:00
 featuredVideo:
-featuredImage: "/images/post-01/stan-structure.png"
+featuredImage:
 keywords: Stan, C++
 draft: false
 ---
